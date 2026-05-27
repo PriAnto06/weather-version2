@@ -2,7 +2,14 @@ import { Button } from '@/components/ui/button';
 import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
 import { Link, Stack } from 'expo-router';
-import { MoonStarIcon, StarIcon, SunIcon } from 'lucide-react-native';
+import {
+  MoonStarIcon,
+  StarIcon,
+  SunIcon,
+  DropletIcon,
+  GaugeIcon,
+  FlagIcon,
+} from 'lucide-react-native';
 import { useColorScheme } from 'nativewind';
 import * as React from 'react';
 import { Image, type ImageStyle, View } from 'react-native';
@@ -28,16 +35,34 @@ export default function Screen() {
 
   return (
     <>
-      <Stack.Screen />
-      <SafeAreaView>
-        <View className="flex-1 items-center justify-center gap-8 p-4">
+      <SafeAreaView className="flex-1">
+        <View className="flex-1 items-center justify-around gap-8 p-4">
           <View className="w-full flex-1 flex-row justify-between">
             <Text>20/05</Text>
             <Text>21/05</Text>
             <Text>22/05</Text>
           </View>
-          <Text className="m-4 text-6xl font-black">Villa Riachuelo</Text>
-          <Icon as={SunIcon} size={64}></Icon>
+          <Text className="text-2xl font-black">Villa Riachuelo</Text>
+          <Icon as={SunIcon} size={128}></Icon>
+          <View className="w-full px-8">
+            <View className="flex flex-row items-center">
+              <Icon as={DropletIcon} size={16}></Icon>
+              <Text className="ml-2 font-black">Villa Riachuelo</Text>
+            </View>
+            <View className="flex flex-row items-center">
+              <Icon as={GaugeIcon} size={16}></Icon>
+              <Text className="ml-2 font-black">Villa Riachuelo</Text>
+            </View>
+            <View className="flex flex-row items-center">
+              <Icon as={FlagIcon} size={16}></Icon>
+              <Text className="ml-2 font-black">Villa Riachuelo</Text>
+            </View>
+          </View>
+          <View className="w-full flex-1 flex-row items-center justify-around">
+            <Text>26º</Text>
+            <Text className="text-2xl">25º</Text>
+            <Text>20º</Text>
+          </View>
         </View>
       </SafeAreaView>
     </>
