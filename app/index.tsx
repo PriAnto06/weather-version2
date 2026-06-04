@@ -1,9 +1,11 @@
 import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
+import Contenedor from '@/src/componentes/Contenedor';
 import DatosClima from '@/src/componentes/DatosClima';
 import Fechas from '@/src/componentes/Fechas';
 import IconosDias from '@/src/componentes/IconosDias';
 import NombreCiudad from '@/src/componentes/NombreCiudad';
+import Temperaturas from '@/src/componentes/Temperaturas';
 import * as React from 'react';
 import { useState } from 'react';
 import { View } from 'react-native';
@@ -64,40 +66,27 @@ export default function Screen() {
   }
 
   return (
-    <SafeAreaView className="flex-1 bg-white">
-      <View className="flex-1 items-center justify-between p-6">
-        <Fechas
-          ayer={pronosticoSemanas[0].fecha}
-          hoy={pronosticoSemanas[1].fecha}
-          manana={pronosticoSemanas[2].fecha}
-          diaActivo={diaSeleccionado}
-          onCambiarDia={cambiarDiaDefinido}
-        />
+    <Contenedor>
+      <Fechas
+        ayer={pronosticoSemanas[0].fecha}
+        hoy={pronosticoSemanas[1].fecha}
+        manana={pronosticoSemanas[2].fecha}
+        diaActivo={diaSeleccionado}
+        onCambiarDia={cambiarDiaDefinido}
+      />
 
-        <NombreCiudad nombre="Villa Riachuelo" />
+      <NombreCiudad nombre="Villa Riachuelo" />
 
-        <IconosDias estado={climaActual.estado} />
+      <IconosDias estado={climaActual.estado} />
 
-        <DatosClima
-          humedad={climaActual.humedad}
-          aceleracion={climaActual.presion}
-          visibilidad={climaActual.viento}
-        />
+      <DatosClima
+        humedad={climaActual.humedad}
+        aceleracion={climaActual.presion}
+        visibilidad={climaActual.viento}
+      />
 
-        {/* Barra inferior con rotación de posiciones físicas */}
-        <View className="w-full flex-row items-baseline justify-between px-4">
-          {/* Columna Izquierda */}
-          <Text className="text-lg text-gray-400">{tempIzquierda}</Text>
-
-          {/* Columna Centro: Siempre muestra el activo, gigante, en negrita y subrayado */}
-          <Text className="text-4xl text-xl font-black text-black underline">
-            {climaActual.temperatura}
-          </Text>
-
-          {/* Columna Derecha */}
-          <Text className="text-lg text-gray-400">{tempDerecha}</Text>
-        </View>
-      </View>
-    </SafeAreaView>
+      {/* Barra inferior con rotación de posiciones físicas */}
+      <Temperaturas actual={23} minima={24} maxima={25}></Temperaturas>
+    </Contenedor>
   );
 }
