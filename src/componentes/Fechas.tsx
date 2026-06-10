@@ -10,7 +10,7 @@ interface FechasProps {
   onCambiarDia: (id: number) => void; // <-- Declaramos la función
 }
 
-const Fechas = ({ ayer, hoy, manana,}: FechasProps) => {
+const Fechas = ({ ayer, hoy, manana, diaActivo, onCambiarDia }: FechasProps) => {
   return (
     <View
       style={{
@@ -23,7 +23,7 @@ const Fechas = ({ ayer, hoy, manana,}: FechasProps) => {
       }}>
       {/* Botón Ayer (ID: 0) */}
       <Pressable
-        onPress={() => oiarnCambDia(0)}
+        onPress={() => onCambiarDia(0)}
         style={({ pressed }) => ({
           flexDirection: 'row',
           alignItems: 'center',
