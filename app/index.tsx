@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
+
+import useGeolocalizacion from '@/src/hooks/useGeolocalizacion';
 
 import Contenedor from '@/src/componentes/Contenedor';
 import DatosClima from '@/src/componentes/DatosClima';
@@ -10,6 +12,13 @@ import Temperaturas from '@/src/componentes/Temperaturas';
 
 export default function AppWeather() {
   const [diaActivo, setDiaActivo] = useState(1);
+
+  const { localizacion, tienePermisos } = useGeolocalizacion();
+  const ubicacion = localizacion();
+
+  const lugano =
+    'http://api.weatherapi.com/v1/current.json?key=16d9aedd284d42aaa6d174225261006&q=-34.6833,-58.4667&aqi=no';
+  `http://api.weatherapi.com/v1/current.json?key=16d9aedd284d42aaa6d174225261006&q=${(ubicacion.latitud, ubicacion.longitud)}&aqi=no`;
 
   const datosClima = [
     {
@@ -31,8 +40,8 @@ export default function AppWeather() {
       maxima: 25,
     },
     {
-      estado: 'lluvia',
       humedad: 90,
+      estado: 'lluvia',
       presion: 1005,
       viento: 20,
       minima: 16,
@@ -54,7 +63,13 @@ export default function AppWeather() {
       />
 
       <View className="w-full flex-1 items-center justify-center gap-y-6">
-        <NombreCiudad nombre="Villa Riachuelo" />
+        <NombreCiudad
+          nombre={
+            tienePermisos()
+              ? `${ubicacion.latitud.toFixed(4)}, ${ubicacion.longitud.toFixed(4)}`
+              : 'Obteniendo ubicación...'
+          }
+        />
 
         <IconosDias estado={climaActual.estado} />
 
