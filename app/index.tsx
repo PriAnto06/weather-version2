@@ -51,38 +51,6 @@ export default function AppWeather() {
     apiCall();
   }, [ubicacion]);
 
-  const datosClima = [
-    {
-      estado: 'soleado',
-      humedad: 60,
-      presion: 1013,
-      viento: 15,
-      minima: 12,
-      actual: 18,
-      maxima: 24,
-    },
-    {
-      estado: 'nublado',
-      humedad: 70,
-      presion: 1010,
-      viento: 10,
-      minima: 14,
-      actual: 20,
-      maxima: 25,
-    },
-    {
-      humedad: 90,
-      estado: 'lluvia',
-      presion: 1005,
-      viento: 20,
-      minima: 16,
-      actual: 19,
-      maxima: 22,
-    },
-  ];
-
-  const climaActual = datosClima[diaActivo];
-
   return (
     <Contenedor testID="screen-weather">
       {historico && pronostico ? (
@@ -102,19 +70,19 @@ export default function AppWeather() {
               }
             />
 
-            <IconosDias estado={climaActual.estado} />
+            <IconosDias estado={historico.forecast.forecastday[0].day.condition.text} />
 
             <DatosClima
-              humedad={climaActual.humedad}
-              aceleracion={climaActual.presion}
-              visibilidad={climaActual.viento}
+              humedad={historico.forecast.forecastday[0].day.avghumidity}
+              aceleracion={historico.forecast.forecastday[0].day.maxwind_kph}
+              visibilidad={historico.forecast.forecastday[0].day.avgvis_km}
             />
           </View>
 
           <Temperaturas
-            minima={climaActual.minima}
-            actual={climaActual.actual}
-            maxima={climaActual.maxima}
+            minima={historico.forecast.forecastday[0].day.mintemp_c}
+            actual={historico.forecast.forecastday[0].day.avgtemp_c}
+            maxima={historico.forecast.forecastday[0].day.maxtemp_c}
           />
         </>
       ) : (
