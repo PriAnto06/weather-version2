@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View } from 'react-native';
+import { Text, View } from 'react-native';
 
 import useGeolocalizacion from '@/src/hooks/useGeolocalizacion';
 
@@ -85,37 +85,43 @@ export default function AppWeather() {
 
   return (
     <Contenedor testID="screen-weather">
-      <Fechas
-        ayer={'07-06'}
-        hoy="08-06"
-        manana="09-06"
-        diaActivo={diaActivo}
-        onCambiarDia={setDiaActivo}
-      />
+      {historico && pronostico ? (
+        <>
+          <Fechas
+            ayer={historico.forecast.forecastday[0].date}
+            hoy={pronostico.forecast.forecastday[0].date}
+            manana={pronostico.forecast.forecastday[1].date}
+            diaActivo={diaActivo}
+            onCambiarDia={setDiaActivo}
+          />
 
-      <View className="w-full flex-1 items-center justify-center gap-y-6">
-        <NombreCiudad
-          nombre={
-            tienePermisos()
-              ? `${ubicacion.latitud.toFixed(4)}, ${ubicacion.longitud.toFixed(4)}`
-              : 'Obteniendo ubicación...'
-          }
-        />
+          <View className="w-full flex-1 items-center justify-center gap-y-6">
+            <NombreCiudad
+              nombre={
+                tienePermisos()
+                  ? `${ubicacion.latitud.toFixed(4)}, ${ubicacion.longitud.toFixed(4)}`
+                  : 'Obteniendo ubicación...'
+              }
+            />
 
-        <IconosDias estado={climaActual.estado} />
+            <IconosDias estado={climaActual.estado} />
 
-        <DatosClima
-          humedad={climaActual.humedad}
-          aceleracion={climaActual.presion}
-          visibilidad={climaActual.viento}
-        />
-      </View>
+            <DatosClima
+              humedad={climaActual.humedad}
+              aceleracion={climaActual.presion}
+              visibilidad={climaActual.viento}
+            />
+          </View>
 
-      <Temperaturas
-        minima={climaActual.minima}
-        actual={climaActual.actual}
-        maxima={climaActual.maxima}
-      />
+          <Temperaturas
+            minima={climaActual.minima}
+            actual={climaActual.actual}
+            maxima={climaActual.maxima}
+          />
+        </>
+      ) : (
+        <Text>cargando...</Text>
+      )}
     </Contenedor>
   );
 }
