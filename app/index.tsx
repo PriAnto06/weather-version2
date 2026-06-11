@@ -98,9 +98,7 @@ export default function AppWeather() {
           <View className="w-full flex-1 items-center justify-center gap-y-6">
             <NombreCiudad
               nombre={
-                tienePermisos()
-                  ? `${ubicacion.latitud.toFixed(4)}, ${ubicacion.longitud.toFixed(4)}`
-                  : 'Obteniendo ubicación...'
+                tienePermisos() ? (pronostico as any).location.region : 'Obteniendo ubicación...'
               }
             />
 
