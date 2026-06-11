@@ -12,13 +12,44 @@ import Temperaturas from '@/src/componentes/Temperaturas';
 
 export default function AppWeather() {
   const [diaActivo, setDiaActivo] = useState(1);
+  const [historico, setHistorico] = useState(null);
+  const [pronostico, setPronostico] = useState(null);
 
   const { localizacion, tienePermisos } = useGeolocalizacion();
   const ubicacion = localizacion();
 
-  const lugano =
-    'http://api.weatherapi.com/v1/current.json?key=16d9aedd284d42aaa6d174225261006&q=-34.6833,-58.4667&aqi=no';
-  `http://api.weatherapi.com/v1/current.json?key=16d9aedd284d42aaa6d174225261006&q=${(ubicacion.latitud, ubicacion.longitud)}&aqi=no`;
+  const ayer = new Date();
+  ayer.setDate(ayer.getDate() - 1);
+
+  const fechaAyer = ayer.toISOString().split('T')[0];
+  useEffect(() => {
+    if (!tienePermisos() || ubicacion.latitud === 0 || ubicacion.longitud === 0) {
+      return;
+    }
+
+    const apiCall = async () => {
+      try {
+        const [historial, pronostico] = await Promise.all([
+          fetch(
+            `https://api.weatherapi.com/v1/history.json?key=16d9aedd284d42aaa6d174225261006&q=${ubicacion.latitud},${ubicacion.longitud}&dt=${fechaAyer}`
+          ).then((r) => r.json()),
+
+          fetch(
+            `https://api.weatherapi.com/v1/forecast.json?key=16d9aedd284d42aaa6d174225261006&q=${ubicacion.latitud},${ubicacion.longitud}&days=2`
+          ).then((r) => r.json()),
+        ]);
+        console.log('historico', historial);
+        console.log('pronostico', pronostico);
+
+        setHistorico(historial);
+        setPronostico(pronostico);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    apiCall();
+  }, [ubicacion]);
 
   const datosClima = [
     {
@@ -55,7 +86,7 @@ export default function AppWeather() {
   return (
     <Contenedor testID="screen-weather">
       <Fechas
-        ayer="07-06"
+        ayer={'07-06'}
         hoy="08-06"
         manana="09-06"
         diaActivo={diaActivo}

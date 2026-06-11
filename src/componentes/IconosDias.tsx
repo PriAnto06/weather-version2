@@ -15,3 +15,5 @@ const IconosDias = ({ estado }: { estado: string }) => {
 };
 
 export default IconosDias;
+
+//cambiar las condiciones a idioma ingles segun lo que devuelve la api
